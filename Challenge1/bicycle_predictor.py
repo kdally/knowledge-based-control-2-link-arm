@@ -1,6 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import tensorflow.compat.v1 as tf  # Modified Tensorflow import to ensure v1.x is used
+import os
+
+print(os.getcwd())
 
 tf.disable_v2_behavior()  # In case your machine is running Tensorflow v2.x, this is necessary to avoid errors.  There is no need to remove this command if you are using Tensorflow v1.x.
 
