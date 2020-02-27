@@ -2,13 +2,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import tensorflow.compat.v1 as tf  # Modified Tensorflow import to ensure v1.x is used
 import os
-
-print(os.getcwd())
-
+path=os.getcwd()+"/Challenge1"
+os.chdir(path)
 tf.disable_v2_behavior()  # In case your machine is running Tensorflow v2.x, this is necessary to avoid errors.  There is no need to remove this command if you are using Tensorflow v1.x.
-
 print('Tensorflow version: ', tf.__version__)
-
 TRAIN_EPOCHS = 100  # The number of times the complete dataset is used to during training
 BATCH_SIZE = 64  # Number of examples to use for calculating the gradient
 LEARNING_RATE = 1e-3  # Scales the size of the parameter updates
@@ -79,7 +76,7 @@ def create_loss_and_train_ops(targets, network_prediction):
             l2_weight_loss = tf.add_n([tf.nn.l2_loss(v) for v in tf.trainable_variables()
                                        if 'bias' not in v.name]) * L2_WEIGHT_LOSS
 
-        total_loss = mean_absolute_error + l2_weight_loss
+        total_loss = mean_squared_error + l2_weight_loss
 
         optimizer = tf.train.AdamOptimizer(learning_rate=LEARNING_RATE,
                                            beta1=0.9,
