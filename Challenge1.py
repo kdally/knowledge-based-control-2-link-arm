@@ -1,3 +1,0 @@
-#Bicycle rental prediction
-
-
