@@ -13,3 +13,6 @@ a/ If the learning rate is too high, this will result in over-fitting and the mo
 
 2.3/
 b/ Since the process is stationary (the task does not change over time) and does not rely on the sample-average method CHECK THIS, optimistic initial action-values are used. This encourages exploration in the initial trials as the reward will be less than the initial value. Here, we set all initial action-values equal to three.
+
+2.4/
+c/ Training data will not be allowed to reach more extreme values, which will make the model unable to handle more extreme validation data VERY MUCH CHECK THIS.

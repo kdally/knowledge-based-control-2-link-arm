@@ -120,6 +120,7 @@ subaxis(2, 3, 3)
 plot(1:par.actions, td, '.');
 title('Action execution');
 xlabel('Action');
+xlim([0 5]);
 ylabel('Applied torque');
 
 disp('...Action execution is within bounds');
