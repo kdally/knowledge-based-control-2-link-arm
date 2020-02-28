@@ -1,0 +1,13 @@
+Questions
+
+2.1/
+a/ The number of simulation steps is determined by the simulation time divided by the time step, I.e. 10/0.05=200 steps are executed, corresponding to each discrete time instant that corresponds to a new position of the pendulum.
+
+b/ Parameters are out of bound (epsilon, gamma, alpha, pos_states, vel_states, actions) as they are all 0.
+
+c/ A learning rate of zero effectively prevents the model from learning anything. It is also not allowed to perform random actions, as in to do exploration which is required for any RL algorithm CHECK THIS. Also, the number of different actions the arm can take is zero, so the controller is meaningless.
+
+
+2.2/
+a/ If the learning rate is too high, this will result in over-fitting and the model will not handle well different type of data from the training data. In other words, it has learned too much from the training data.
+
