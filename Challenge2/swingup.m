@@ -116,14 +116,13 @@ end
 % *** Edit below this line                                       ***
 % ******************************************************************
 function par = get_parameters(par)
-    % TODO: set the values
-    par.epsilon = 0;        % Random action rate
-    par.gamma = 0.99;       % Discount rate
-    par.alpha = 0;          % Learning rate
-    par.pos_states = 0;     % Position discretization
-    par.vel_states = 0;     % Velocity discretization
-    par.actions = 0;        % Action discretization
-    par.trials = 0;         % Learning trials
+    par.epsilon = 0.1;       % Random action rate
+    par.gamma = 0.99;        % Discount rate
+    par.alpha = 0.25;        % Learning rate
+    par.pos_states = 31;     % Position discretization
+    par.vel_states = 31;     % Velocity discretization
+    par.actions = 5;         % Action discretization
+    par.trials = 2000;       % Learning trials
 end
 
 function Q = init_Q(par)
