@@ -16,3 +16,7 @@ b/ Since the process is stationary (the task does not change over time) and does
 
 2.4/
 c/ Training data will not be allowed to reach more extreme values, which will make the model unable to handle more extreme validation data VERY MUCH CHECK THIS.
+
+2.5/
+a/ The simplest reward is, independently of the action, to reward the maximum reward if the pendulum is at the top with zero velocity.
+

@@ -147,12 +147,21 @@ function u = take_action(a, par)
 end
 
 function r = observe_reward(a, sP, par)
-    % TODO: Calculate the reward for taking action a,
-    % TODO: resulting in state sP.
+    s_goal = discretize_state([pi,0], par);
+    if sP==s_goal
+        r = 10;
+    else
+        r = 0;
+    end
 end
 
 function t = is_terminal(sP, par)
-    % TODO: Return 1 if state sP is terminal, 0 otherwise.
+    s_goal = discretize_state([pi,0], par);
+    if sP==s_goal
+        t = 1;
+    else
+        t = 0;
+    end
 end
 
 
