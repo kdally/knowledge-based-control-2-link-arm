@@ -327,8 +327,14 @@ if __name__ == '__main__':
         """ (4) Train and get results by running ops"""
         model.train()  # Train the network to predict the bicycle rentals
 
-        # model.largest_data_point_errors() # print the dates and times on which the model makes
+        model.largest_data_point_errors() # print the dates and times on which the model makes
         # the largest errors.
+
+        # BLACK FRIDAY ON 2012-11-23, people use car to go shopping afterwards
+        # end of the month, no money for leisure
+
+
+
 
     plt.ioff()
     plt.show()  # to prevent the figure from being closed when the script end
