@@ -130,31 +130,32 @@ function Q = init_Q(par)
 end
 
 function s = discretize_state(x, par)
-    % TODO: Discretize state. Note: s(1) should be
-    % TODO: position, s(2) velocity.
+    x(1) = mod(x(1),2*pi);                                               % make sure the input is bounded between 0 and 2*pi
+    s(1) = (par.pos_states-1)/(2*pi)*x(1) + 1;                           % using a linear mapping
+    
+    vel_xtrm = 5*pi;                        
+    x(2) = min(max(x(2),-vel_xtrm),vel_xtrm);                            % clipping the value to -5*pi or +5*pi rad/s
+    s(2) = (par.vel_states-1)/(2*vel_xtrm)*x(2) + (par.vel_states+1)/2;  % using a linear mapping
+    
+    s = round(s);
+    
 end
 
-function u = take_action(a, par)
-    % TODO: Calculate the proper torque for action a. This cannot
-    % TODO: exceed par.maxtorque.
+function u = take_action(a, par)                                         
+    u = -par.maxtorque*(1+(1+par.actions)/(1-par.actions))*a + par.maxtorque*(1+par.actions)/(1-par.actions);         % using a linear mapping
+    u =  min(max(u,-par.maxtorque),par.maxtorque);                                                                    % clipping the input torque to the allowable bounds
 end
 
 function r = observe_reward(a, sP, par)
-    s_goal = discretize_state([pi,0], par);
-    if sP==s_goal
-        r = 10;
-    else
-        r = 0;
-    end
+    % TODO: Calculate the reward for taking action a,
+    % TODO: resulting in state sP.
+    
+    r = 
+    
 end
 
 function t = is_terminal(sP, par)
-    s_goal = discretize_state([pi,0], par);
-    if sP==s_goal
-        t = 1;
-    else
-        t = 0;
-    end
+    % TODO: Return 1 if state sP is terminal, 0 otherwise.
 end
 
 

@@ -12,6 +12,7 @@ c/ A learning rate of zero effectively prevents the model from learning anything
 a/ If the learning rate is too high, this will result in over-fitting and the model will not handle well different type of data from the training data. In other words, it has learned too much from the training data.
 
 2.3/
+<<<<<<< HEAD
 b/ Since the process is stationary (the task does not change over time) and does not rely on the sample-average method CHECK THIS, optimistic initial action-values are used. This encourages exploration in the initial trials as the reward will be less than the initial value. Here, we set all initial action-values equal to three.
 
 2.4/
@@ -20,3 +21,6 @@ c/ Training data will not be allowed to reach more extreme values, which will ma
 2.5/
 a/ The simplest reward is, independently of the action, to reward the maximum reward if the pendulum is at the top with zero velocity.
 
+=======
+b/ Since the process is stationary (the task does not change over time) and does not rely on the sample-average method CHECK THIS, optimistic initial action-values are used. This encourages exploration in the initial trials as the reward will be less than the initial value. Here, we set all initial action-values equal to three.
+>>>>>>> parent of cfddeee... Problem 2 - Task 2.5
