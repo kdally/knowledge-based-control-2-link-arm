@@ -6,9 +6,9 @@ path=os.getcwd()+"/Challenge1"
 os.chdir(path)
 tf.disable_v2_behavior()  # In case your machine is running Tensorflow v2.x, this is necessary to avoid errors.  There is no need to remove this command if you are using Tensorflow v1.x.
 print('Tensorflow version: ', tf.__version__)
-TRAIN_EPOCHS = 100  # The number of times the complete dataset is used to during training
-BATCH_SIZE = 64  # Number of examples to use for calculating the gradient
-LEARNING_RATE = 1e-3  # Scales the size of the parameter updates
+TRAIN_EPOCHS = 200  # The number of times the complete dataset is used to during training # BRING IT UP
+BATCH_SIZE = 64  # Number of examples to use for calculating the gradient # BRING IT DOWN
+LEARNING_RATE = 2e-3  # Scales the size of the parameter updates  # BRING IT UP
 L2_WEIGHT_LOSS = 0e-3  # Penalty on the size of the parameters, used for regularization
 
 REPORT_INTERVAL = 10  # Report the learning progress once every number of epochs
@@ -88,16 +88,22 @@ def create_loss_and_train_ops(targets, network_prediction):
 def create_neural_network(network_input):
     """Create the neural network used to predict the number of rented out bicycles"""
 
-    blanked_out_input = network_input * tf.constant([[0.0]])
+    blanked_out_input = network_input
 
     hidden_layer1 = fully_connected_network_layer(name='hidden1',
                                                   input_tensor=blanked_out_input,
                                                   size=100,
-                                                  activation_function='linear')
+                                                  activation_function='relu')
+    # What size???
+    hidden_layer2 = fully_connected_network_layer(name='hidden2',
+                                                  input_tensor=hidden_layer1,
+                                                  size=100,
+                                                  activation_function='relu')
+
     prediction = fully_connected_network_layer(name='output',
-                                               input_tensor=hidden_layer1,
+                                               input_tensor=hidden_layer2,
                                                size=TARGET_SIZE,
-                                               activation_function='linear')
+                                               activation_function='linear') # if 'relu' then no learning at all
     return prediction
 
 
