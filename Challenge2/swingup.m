@@ -62,11 +62,17 @@ function [par, ta, xa] = swingup(par)
             tta(ii) = tta(ii) + tt*par.simstep;
 
             % Update plot every ten trials
-            if rem(ii, 10) == 0
+            if rem(ii, 10) == 0 %&& par.live_visual
                 plot_Q(Q, par, ra, tta, ii);
                 drawnow;
             end
+            
         end
+        
+        f = figure('visible', 'on');
+        plot_Q(Q, par, ra, tta, ii);
+        str = strcat('SARSA_eps',num2str(100*par.epsilon),'_gam',num2str(100*par.gamma));
+        saveas(f,strcat('Plots\',str),'epsc')
         
         % save learned Q value function
         par.Q = Q;
@@ -190,9 +196,7 @@ function a = execute_policy(Q, s, par)
     end
 end
 
-function Q = update_Q(Q, s, a, r, sP, aP, par)
-    % USE REWARD rP AT sP aP or USE REWARD r at s and a???
-    %rP = observe_reward(aP,SP,par);
-    Q(s(1),s(2),a) = Q(s(1),s(2),a) + par.alpha * (r + par.gamma*Q(sP(1),sP(2),aP) - Q(s(1),s(2),a));
+function Q = update_Q(Q, s, a, rP, sP, aP, par)
+    Q(s(1),s(2),a) = Q(s(1),s(2),a) + par.alpha * (rP + par.gamma*Q(sP(1),sP(2),aP) - Q(s(1),s(2),a));
 end
 

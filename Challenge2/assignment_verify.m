@@ -206,6 +206,27 @@ disp('...Q update rule is implemented');
 
 disp('Sanity check successfully completed');
 
-%%
-assignment
+%% GREEDY
+live_visual = true;
+show_anim   = true;
+epsilon = 0;
+gamma   = 0.99;
+assignment(epsilon,gamma,show_anim,live_visual)
+
+
+%% EPSILON-GREEDY
+live_visual = true;
+show_anim   = true;
+epsilon = 0.1;
+gamma   = 0.99;
+assignment(epsilon,gamma,show_anim,live_visual)
+
+
+%% DISCOUNT-RATE
+live_visual = false;
+show_anim   = false;
+epsilon = 0.1;
+for gamma = [0.5:0.2:1]
+assignment(epsilon,gamma,show_anim,live_visual)
+end
 

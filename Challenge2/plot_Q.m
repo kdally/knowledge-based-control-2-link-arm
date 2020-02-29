@@ -7,6 +7,8 @@ function plot_Q(Q, par, ra, tta, ii)
     % Value function
     subaxis(2, 2, 1, 'MR', 0.05, 'SV', 0.15, 'SH', 0.1);
     pcolor([val, val(:,end); val(end,:) val(end,end)]);
+    colorbar
+    caxis([0 10]);
     axis tight
     title('State-value function (V = max_a(Q(s, a)))');
     xlabel('Position');
@@ -15,6 +17,8 @@ function plot_Q(Q, par, ra, tta, ii)
     % Policy
     subaxis(2, 2, 2);
     pcolor([pos, pos(:,end); pos(end,:) pos(end,end)]);
+    colorbar
+    caxis([0 5]);
     axis tight
     title('Policy (argmax_a(Q(s, a)))');
     xlabel('Position');
