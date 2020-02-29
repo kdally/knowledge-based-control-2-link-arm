@@ -10,7 +10,7 @@ function [par, ta, xa] = swingup(par)
         % Obtain SARSA parameters
         par = get_parameters(par);
         
-		% TODO: Initialize the outer loop
+        Q = init_Q(par);
 
         % Initialize bookkeeping (for plotting only)
         ra = zeros(par.trials, 1);
@@ -19,23 +19,35 @@ function [par, ta, xa] = swingup(par)
 
         % Outer loop: trials
         for ii = 1:par.trials
-
-            % TODO: Initialize the inner loop
-
+            
+            % Initialize a new trial
+            x = swingup_initial_state();
+            s = discretize_state(x, par);
+            a = execute_policy(Q, s, par);
+  
             % Inner loop: simulation steps
             for tt = 1:ceil(par.simtime/par.simstep)
                 
-                % TODO: obtain torque
+                % Take the chosen action
+                TD = take_action(a, par);
                 
                 % Apply torque and obtain new state
                 % x  : state (input at time t and output at time t+par.simstep)
                 % u  : torque
                 % te : new time
                 [te, x] = body_straight([te te+par.simstep],x,u,par);
-
-                % TODO: learn
-                % use s for discretized state
                 
+                % Observe aP, rP
+                sP = discretize_state(x, par);
+                aP = execute_policy(Q, sP, par);
+                rP = observe_reward(aP, sP, par);
+                
+                % Learn using the  discretized state
+                Q = update_Q(Q, s, a, r, sP, aP, par);
+                
+                s = sP;
+                a = aP;
+      
                 % Keep track of cumulative reward
                 ra(ii) = ra(ii)+reward;
 
@@ -146,7 +158,7 @@ function u = take_action(a, par)
     u =  min(max(u,-par.maxtorque),par.maxtorque);                                                                    % clipping the input torque to the allowable bounds
 end
 
-function r = observe_reward(a, sP, par)
+function r = observe_reward(a, sP, par) % actually reward does not depend on the action
     s_goal = discretize_state([pi,0], par);
     if sP==s_goal
         r = 10;
@@ -165,17 +177,17 @@ function t = is_terminal(sP, par)
 end
 
 function a = execute_policy(Q, s, par)
-    % TODO: Select an action for state s using the
-    % TODO: epsilon-greedy algorithm.
-    
-    % play either best Q or random
-    
-    Q(s(1),s(2),i)
-    
-    
+    play = rand();
+    if play > par.epsilon
+        [~, a] = max(Q(s(1),s(2),:));
+    else
+        a = randi(par.actions);
+    end
 end
 
 function Q = update_Q(Q, s, a, r, sP, aP, par)
-    % TODO: Implement the SARSA update rule.
+    % USE REWARD rP AT sP aP or USE REWARD r at s and a???
+    %rP = observe_reward(aP,SP,par);
+    Q(s(1),s(2),a) = Q(s(1),s(2),a) + par.alpha * (r + par.gamma*Q(sP(1),sP(2),aP) - Q(s(1),s(2),a));
 end
 

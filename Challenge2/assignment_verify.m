@@ -206,5 +206,6 @@ disp('...Q update rule is implemented');
 
 disp('Sanity check successfully completed');
 
-
+%%
+assignment
 

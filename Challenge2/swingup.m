@@ -10,7 +10,7 @@ function [par, ta, xa] = swingup(par)
         % Obtain SARSA parameters
         par = get_parameters(par);
         
-		% TODO: Initialize the outer loop
+        Q = init_Q(par);
 
         % Initialize bookkeeping (for plotting only)
         ra = zeros(par.trials, 1);
@@ -19,27 +19,44 @@ function [par, ta, xa] = swingup(par)
 
         % Outer loop: trials
         for ii = 1:par.trials
-
-            % TODO: Initialize the inner loop
-
+            
+            % Initialize a new trial
+            x = swingup_initial_state();
+            s = discretize_state(x, par);
+            a = execute_policy(Q, s, par);
+  
             % Inner loop: simulation steps
             for tt = 1:ceil(par.simtime/par.simstep)
                 
-                % TODO: obtain torque
+                % Take the chosen action
+                u = take_action(a, par);
                 
                 % Apply torque and obtain new state
                 % x  : state (input at time t and output at time t+par.simstep)
                 % u  : torque
                 % te : new time
                 [te, x] = body_straight([te te+par.simstep],x,u,par);
-
-                % TODO: learn
-                % use s for discretized state
                 
+                % Observe next discretized state sP and reward rP
+                sP = discretize_state(x, par);
+                rP = observe_reward(1, sP, par); % reward does not depend on action, so random action given
+                
+                % Choose next action aP
+                aP = execute_policy(Q, sP, par);
+                
+                % Learn using the  discretized state
+                Q = update_Q(Q, s, a, rP, sP, aP, par);
+                s = sP;
+                a = aP;
+      
                 % Keep track of cumulative reward
-                ra(ii) = ra(ii)+reward;
+                ra(ii) = ra(ii)+rP;
 
-                % TODO: check termination condition
+                % Stop trial if state is terminal
+                if is_terminal(s, par)
+                    break
+                end
+                
             end
 
             tta(ii) = tta(ii) + tt*par.simstep;
@@ -146,7 +163,7 @@ function u = take_action(a, par)
     u =  min(max(u,-par.maxtorque),par.maxtorque);                                                                    % clipping the input torque to the allowable bounds
 end
 
-function r = observe_reward(a, sP, par)
+function r = observe_reward(a, sP, par) % actually reward does not depend on the action
     s_goal = discretize_state([pi,0], par);
     if sP==s_goal
         r = 10;
