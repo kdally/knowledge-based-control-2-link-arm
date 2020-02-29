@@ -164,13 +164,18 @@ function t = is_terminal(sP, par)
     end
 end
 
-
 function a = execute_policy(Q, s, par)
-    % TODO: Select an action for state s using the
-    % TODO: epsilon-greedy algorithm.
+    play = rand();
+    if play > par.epsilon
+        [~, a] = max(Q(s(1),s(2),:));
+    else
+        a = randi(par.actions);
+    end
 end
 
 function Q = update_Q(Q, s, a, r, sP, aP, par)
-    % TODO: Implement the SARSA update rule.
+    % USE REWARD rP AT sP aP or USE REWARD r at s and a???
+    %rP = observe_reward(aP,SP,par);
+    Q(s(1),s(2),a) = Q(s(1),s(2),a) + par.alpha * (r + par.gamma*Q(sP(1),sP(2),aP) - Q(s(1),s(2),a));
 end
 

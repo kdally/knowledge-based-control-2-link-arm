@@ -147,21 +147,32 @@ function u = take_action(a, par)
 end
 
 function r = observe_reward(a, sP, par)
-    % TODO: Calculate the reward for taking action a,
-    % TODO: resulting in state sP.
-    
-    r = 
-    
+    s_goal = discretize_state([pi,0], par);
+    if sP==s_goal
+        r = 10;
+    else
+        r = 0;
+    end
 end
 
 function t = is_terminal(sP, par)
-    % TODO: Return 1 if state sP is terminal, 0 otherwise.
+    s_goal = discretize_state([pi,0], par);
+    if sP==s_goal
+        t = 1;
+    else
+        t = 0;
+    end
 end
-
 
 function a = execute_policy(Q, s, par)
     % TODO: Select an action for state s using the
     % TODO: epsilon-greedy algorithm.
+    
+    % play either best Q or random
+    
+    Q(s(1),s(2),i)
+    
+    
 end
 
 function Q = update_Q(Q, s, a, r, sP, aP, par)
