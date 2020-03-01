@@ -1,4 +1,5 @@
 %% Initialization
+clear
 par.run_type = 'verify';
 par = swingup(par);
 par.maxtorque = 1.5;
@@ -207,26 +208,25 @@ disp('...Q update rule is implemented');
 disp('Sanity check successfully completed');
 
 %% GREEDY
-live_visual = true;
-show_anim   = true;
+clear
+visual = true;
 epsilon = 0;
 gamma   = 0.99;
-assignment(epsilon,gamma,show_anim,live_visual)
+assignment(epsilon,gamma,visual)
 
 
-%% EPSILON-GREEDY
-live_visual = true;
-show_anim   = true;
-epsilon = 0.1;
-gamma   = 0.99;
-assignment(epsilon,gamma,show_anim,live_visual)
+%% EPSILON-GREEDY (DEFAULT)
+clear
+assignment()
 
 
 %% DISCOUNT-RATE
-live_visual = false;
-show_anim   = false;
+clear
+visual = false;
 epsilon = 0.1;
-for gamma = [0.5:0.2:1]
-assignment(epsilon,gamma,show_anim,live_visual)
+for gamma = [0.5:0.1:0.99]
+assignment(epsilon,gamma,visual)
+close all
 end
+
 

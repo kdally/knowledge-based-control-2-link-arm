@@ -1,7 +1,6 @@
 function par = robot_set_parameters
 %% initialize body variables
 
-par.gamma = 0;
 par.g = 9.81;
 par.m1 = 2;
 par.m2 = 2;

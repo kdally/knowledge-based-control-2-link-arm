@@ -62,7 +62,7 @@ function [par, ta, xa] = swingup(par)
             tta(ii) = tta(ii) + tt*par.simstep;
 
             % Update plot every ten trials
-            if rem(ii, 10) == 0 %&& par.live_visual
+            if rem(ii, 10) == 0 && par.visual
                 plot_Q(Q, par, ra, tta, ii);
                 drawnow;
             end
@@ -72,7 +72,7 @@ function [par, ta, xa] = swingup(par)
         f = figure('visible', 'on');
         plot_Q(Q, par, ra, tta, ii);
         str = strcat('SARSA_eps',num2str(100*par.epsilon),'_gam',num2str(100*par.gamma));
-        saveas(f,strcat('Plots\',str),'epsc')
+        saveas(f,strcat('Plots\',str),'epsc');
         
         % save learned Q value function
         par.Q = Q;
@@ -139,8 +139,17 @@ end
 % *** Edit below this line                                       ***
 % ******************************************************************
 function par = get_parameters(par)
-    par.epsilon = 0.1;       % Random action rate
-    par.gamma = 0.99;        % Discount rate
+
+    if isfield(par,'gamma')
+    else
+        par.gamma = 0.99;        % Discount rate
+    end
+    
+    if isfield(par,'epsilon')
+    else
+        par.epsilon = 0.1;       % Random action rate
+    end
+    
     par.alpha = 0.25;        % Learning rate
     par.pos_states = 31;     % Position discretization
     par.vel_states = 31;     % Velocity discretization
