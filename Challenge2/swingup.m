@@ -69,6 +69,7 @@ function [par, ta, xa] = swingup(par)
             
         end
         
+        close all
         f = figure('visible', 'on');
         plot_Q(Q, par, ra, tta, ii);
         str = strcat('SARSA_eps',num2str(100*par.epsilon),'_gam',num2str(100*par.gamma));
