@@ -54,20 +54,27 @@ for iter = 1:length(rot_vel)
     [RMSE_yours.x(iter), RMSE_yours.th(iter)] = analyze_performance(t, curr, des, false);
 end
 
+%%
 load RMSE_PD.mat;
 load RMSE_DYN1.mat;
 load RMSE_DYN2.mat;
 
+f = figure('visible', 'on');
 subplot(2,1,1);
-plot(rot_vel,[RMSE_yours.x' RMSE_PD.x' RMSE_DYN1.x' RMSE_DYN2.x']);
+plot(rot_vel,[RMSE_yours.x' RMSE_PD.x' RMSE_DYN1.x' RMSE_DYN2.x'],'LineWidth',1.5);
 ylabel('RMSE x');
 legend('yours','PD','DYN1','DYN2');
+grid on
 
 subplot(2,1,2);
-plot(rot_vel,[RMSE_yours.th' RMSE_PD.th' RMSE_DYN1.th' RMSE_DYN2.th']);
+plot(rot_vel,[RMSE_yours.th' RMSE_PD.th' RMSE_DYN1.th' RMSE_DYN2.th'],'LineWidth',1.5);
 ylabel('RMSE th');
 legend('yours','PD','DYN1','DYN2');
-xlabel('rot vel');
+xlabel('rot vel [rad/s]');
+grid on
+
+set(findall(gcf,'-property','FontSize'),'FontSize',15)
+saveas(f,'evaluation','epsc');
 
 fprintf('mean RMSE x\n');
 fprintf('yours %f\n', mean(RMSE_yours.x));
