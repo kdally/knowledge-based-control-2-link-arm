@@ -159,7 +159,7 @@ function par = get_parameters(par)
 end
 
 function Q = init_Q(par)
-    Q = 3*ones(par.pos_states,par.vel_states,par.actions);
+    Q = 1*ones(par.pos_states,par.vel_states,par.actions);
 end
 
 function s = discretize_state(x, par)

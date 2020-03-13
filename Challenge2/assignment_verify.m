@@ -207,24 +207,21 @@ disp('...Q update rule is implemented');
 
 disp('Sanity check successfully completed');
 
+%% EPSILON-GREEDY (DEFAULT)
+assignment()
+
 %% GREEDY
-clear
 visual = true;
 epsilon = 0;
 gamma   = 0.99;
 assignment(epsilon,gamma,visual)
 
-
-%% EPSILON-GREEDY (DEFAULT)
-clear
-assignment()
-
-
 %% DISCOUNT-RATE
-clear
+% When gamma is 0, the future reward is not taken into account and Q is
+% basically equal to the current reward
 visual = false;
 epsilon = 0.1;
-for gamma = [0.5:0.1:0.99]
+for gamma = [0:0.1:0.95 0.95:0.01:0.99]
 assignment(epsilon,gamma,visual)
 close all
 end

@@ -30,13 +30,15 @@ th_0 = des.th(:,1) - [0.1; 0.2];
 th_d_0 = des.th_d(:,1);
 
 % Your Code
-your_parameters = [];
+folder = fileparts(which(mfilename));
+addpath(genpath(folder));
+load ANN/net.mat
 
 %% SIMULATE ROBOT
 Kp = [500; 500];
 Kd = [50; 50];
 curr = simulate_robot(t, dt, th_0, th_d_0, des, rp, ...
-    @(th_curr, th_d_curr, th_des, th_d_des, th_dd_des) ff_yours(th_curr, th_d_curr, th_des, th_d_des, th_dd_des, your_parameters), ...
+    @(th_curr, th_d_curr, th_des, th_d_des, th_dd_des) ff_yours(th_curr, th_d_curr, th_des, th_d_des, th_dd_des, net), ...
     @(th_curr, th_d_curr, th_des, th_d_des) fb_pd(th_curr, th_d_curr, th_des, th_d_des, Kp, Kd));
 
 robot_animation(t, curr, des);
