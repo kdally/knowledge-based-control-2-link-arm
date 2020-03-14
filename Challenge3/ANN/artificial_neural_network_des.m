@@ -5,7 +5,7 @@ close all
 %% GENERATE TRAINING DATA
 % Input from desired state and targets from analytical equations
 
-rot_vel = [70:1:80];
+rot_vel = [70:80];
 inputs = zeros(6,1);
 targets = zeros(2,1);
 
@@ -19,12 +19,12 @@ end
 
 net = feedforwardnet(100);
 [net,tr] = train(net,inputs,targets);
+
 %% SAVE NETWORK PARAMEETERS
 tmp = matlab.desktop.editor.getActive;
 cd(fileparts(tmp.Filename));
 clearvars -except net
-save net
-
+save net_des
 
 
 function [inputs,targets] = generate_training_data(rot_vel)

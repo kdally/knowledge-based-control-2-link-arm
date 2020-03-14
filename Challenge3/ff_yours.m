@@ -9,7 +9,8 @@ function tau_ff = ff_yours(th_curr, th_d_curr, th_des, th_d_des, th_dd_des, net)
 %     and this is the only purpose for which you are allowed to use the
 %     robot parameters rp.
 %     
-    input = [th_des; th_d_des; th_dd_des];
+    %input = [th_des; th_d_des; th_dd_des];
+    input = [th_curr; th_d_curr; th_dd_des];
     tau_ff = net(input);
     
 end

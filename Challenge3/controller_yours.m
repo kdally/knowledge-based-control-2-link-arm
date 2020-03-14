@@ -26,13 +26,19 @@ tp.x0 = 0.4;  tp.y0 = 0.4;  % center of ellipse
 % Calculate desired trajectory in task space and in joint space
 des = calculate_trajectory(t, tp, rp);
 
+
 th_0 = des.th(:,1) - [0.1; 0.2];
 th_d_0 = des.th_d(:,1);
 
 % Your Code
 folder = fileparts(which(mfilename));
 addpath(genpath(folder));
-load ANN/net.mat
+type = 'des';
+if strcmp(type,'des')
+   load ANN/net_des.mat
+elseif strcmp(type,'state')
+   load ANN/net_state.mat
+end
 
 %% SIMULATE ROBOT
 Kp = [500; 500];
