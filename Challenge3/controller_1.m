@@ -36,5 +36,5 @@ curr = simulate_robot(t, dt, th_0, th_d_0, des, rp, ...
     @(th_curr, th_d_curr, th_des, th_d_des, th_dd_des) ff_dyn_model_1(th_curr, th_d_curr, th_des, th_d_des, th_dd_des, rp), ...
     @(th_curr, th_d_curr, th_des, th_d_des) fb_pd(th_curr, th_d_curr, th_des, th_d_des, Kp, Kd));
 
-robot_animation(t, curr, des);
+%robot_animation(t, curr, des);
 analyze_performance(t, curr, des);
