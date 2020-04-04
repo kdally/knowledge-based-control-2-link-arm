@@ -1,6 +1,4 @@
-clc
-clearvars
-close all
+function [curr, des] = controller_1_func(rot_velocity, initial_offset)
 
 % tau - torques applied to joints
 % th - positions of the joints (angles)
@@ -18,7 +16,7 @@ t = 0:dt:sim_time;
 
 %% DESIRED TRAJECTORY DATA
 d2r  = pi/180;             % degrees to radians
-tp.w = 72*d2r;            % rotational velocity rad/s
+tp.w = rot_velocity*d2r;            % rotational velocity rad/s
 tp.rx = 1.75; tp.ry = 1.25; % ellipse radii
 tp.ell_an = 45*d2r;       % angle of inclination of ellipse
 tp.x0 = 0.4;  tp.y0 = 0.4;  % center of ellipse  
@@ -27,17 +25,14 @@ tp.x0 = 0.4;  tp.y0 = 0.4;  % center of ellipse
 des = calculate_trajectory(t, tp, rp);
 
 th_0 = des.th(:,1) - [0.1; 0.2];
-% th_0 = des.th(:,1);
 th_d_0 = des.th_d(:,1);
 
 %% SIMULATE ROBOT
 Kp = [500; 500];
 Kd = [50; 50];
-% Kp = [0; 0];
-% Kd = [0; 0];
+
 curr = simulate_robot(t, dt, th_0, th_d_0, des, rp, ...
-    @(th_curr, th_d_curr, th_des, th_d_des, th_dd_des) ff_dyn_model_2(th_curr, th_d_curr, th_des, th_d_des, th_dd_des, rp), ...
+    @(th_curr, th_d_curr, th_des, th_d_des, th_dd_des) ff_dyn_model_1(th_curr, th_d_curr, th_des, th_d_des, th_dd_des, rp), ...
     @(th_curr, th_d_curr, th_des, th_d_des) fb_pd(th_curr, th_d_curr, th_des, th_d_des, Kp, Kd));
 
-robot_animation(t, curr, des);
-analyze_performance(t, curr, des);
+end

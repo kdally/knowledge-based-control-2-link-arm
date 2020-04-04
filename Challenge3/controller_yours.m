@@ -33,12 +33,7 @@ th_d_0 = des.th_d(:,1);
 % Your Code
 folder = fileparts(which(mfilename));
 addpath(genpath(folder));
-type = 'des';
-if strcmp(type,'des')
-   load ANN/net_des.mat
-elseif strcmp(type,'state')
-   load ANN/net_state.mat
-end
+load ANN/net.mat
 
 %% SIMULATE ROBOT
 Kp = [500; 500];

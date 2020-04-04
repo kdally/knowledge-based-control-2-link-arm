@@ -37,6 +37,8 @@ function curr = simulate_robot(t, dt, th_0, th_d_0, des, rp, ctr_ff, ctr_fb)
         
         %% Convert to Cartesian values
         [curr.x(:,iter), curr.x_d(:,iter), curr.x_dd(:,iter), curr.x_eb(:,iter)] = FK(th_new, th_d_new, th_dd_new, rp);
+        
+        %(th_dd_des./th_dd_new-1)*100
     end
 end
 

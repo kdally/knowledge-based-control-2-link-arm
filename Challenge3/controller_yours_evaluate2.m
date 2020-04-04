@@ -23,7 +23,7 @@ tp.rx = 1.75; tp.ry = 1.25; % ellipse radii
 tp.ell_an = 45*d2r;       % angle of inclination of ellipse
 tp.x0 = 0.4;  tp.y0 = 0.4;  % center of ellipse  
 
-rot_vel = 70:80;
+rot_vel = 70:0.5:80;
 RMSE_yours.x = zeros(1,length(rot_vel));
 RMSE_yours.th = zeros(1,length(rot_vel));
 
@@ -35,14 +35,18 @@ folder = fileparts(which(mfilename));
 addpath(genpath(folder));
 load ANN/net.mat
 
+
 %% SIMULATE ROBOT
+
 for iter = 1:length(rot_vel)
     tp.w = rot_vel(iter)*d2r;
 
     % Calculate desired trajectory in task space and in joint space
     des = calculate_trajectory(t, tp, rp);
 
-    th_0 = des.th(:,1) - [30*d2r; -20*d2r];
+    initial_offset = [randi([-30,30]); randi([-30,30])];
+    
+    th_0 = des.th(:,1) - initial_offset;
     th_d_0 = des.th_d(:,1);
 
     %% SIMULATE ROBOT
@@ -62,8 +66,7 @@ for iter = 1:length(rot_vel)
 end
 
 load RMSE_PD.mat;
-load RMSE_DYN1.mat;
-% load RMSE_DYN2.mat;
+
 
 f = figure('visible', 'on');
 subplot(2,1,1);
