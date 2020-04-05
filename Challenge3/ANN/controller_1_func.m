@@ -1,5 +1,8 @@
 function [curr, des] = controller_1_func(rot_velocity, initial_offset)
 
+% Function copied from controller_1.m, uses the specified rot_velocity and
+% initial offset
+%
 % tau - torques applied to joints
 % th - positions of the joints (angles)
 % th_d - velocities of the joints (angular velocity)
@@ -24,7 +27,7 @@ tp.x0 = 0.4;  tp.y0 = 0.4;  % center of ellipse
 % Calculate desired trajectory in task space and in joint space
 des = calculate_trajectory(t, tp, rp);
 
-th_0 = des.th(:,1) - [0.1; 0.2];
+th_0 = des.th(:,1) - initial_offset;
 th_d_0 = des.th_d(:,1);
 
 %% SIMULATE ROBOT

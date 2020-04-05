@@ -62,19 +62,46 @@ load RMSE_DYN2.mat;
 f = figure('visible', 'on');
 subplot(2,1,1);
 plot(rot_vel,[RMSE_yours.x' RMSE_PD.x' RMSE_DYN1.x' RMSE_DYN2.x'],'LineWidth',1.5);
-ylabel('RMSE x');
+ylabel('RMSE x [m]');
 legend('yours','PD','DYN1','DYN2');
 grid on
 
 subplot(2,1,2);
 plot(rot_vel,[RMSE_yours.th' RMSE_PD.th' RMSE_DYN1.th' RMSE_DYN2.th'],'LineWidth',1.5);
-ylabel('RMSE th');
+ylabel('RMSE \theta [rad]');
 legend('yours','PD','DYN1','DYN2');
-xlabel('rot vel [rad/s]');
+xlabel('rot vel [deg/s]');
 grid on
 
 set(findall(gcf,'-property','FontSize'),'FontSize',15)
-saveas(f,'evaluation','epsc');
+saveas(f,'evaluation_all','epsc');
+
+fprintf('mean RMSE x\n');
+fprintf('yours %f\n', mean(RMSE_yours.x));
+fprintf('PD %f\n', mean(RMSE_PD.x));
+fprintf('DYN1 %f\n', mean(RMSE_DYN1.x));
+fprintf('DYN2 %f\n', mean(RMSE_DYN2.x));
+
+% Plot without PD conroller for better visualization
+f = figure('visible', 'on');
+subplot(2,1,1);
+plot(rot_vel,[RMSE_yours.x' RMSE_DYN1.x' RMSE_DYN2.x'],'LineWidth',1.5);
+ylabel('RMSE x [m]');
+legend('yours','DYN1','DYN2');
+set(legend,'FontName','Helvetica','Location','Southeast');
+grid on
+
+subplot(2,1,2);
+plot(rot_vel,[RMSE_yours.th' RMSE_DYN1.th' RMSE_DYN2.th'],'LineWidth',1.5);
+ylabel('RMSE \theta [rad]');
+legend('yours','DYN1','DYN2');
+xlabel('rot vel [deg/s]');
+grid on
+
+set(legend,'FontName','Helvetica','Location','Southeast');
+
+set(findall(gcf,'-property','FontSize'),'FontSize',15)
+saveas(f,'evaluation_zoom','epsc');
 
 fprintf('mean RMSE x\n');
 fprintf('yours %f\n', mean(RMSE_yours.x));

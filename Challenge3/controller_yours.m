@@ -26,11 +26,10 @@ tp.x0 = 0.4;  tp.y0 = 0.4;  % center of ellipse
 % Calculate desired trajectory in task space and in joint space
 des = calculate_trajectory(t, tp, rp);
 
-
 th_0 = des.th(:,1) - [0.1; 0.2];
 th_d_0 = des.th_d(:,1);
 
-% Your Code
+% Your Code: load network
 folder = fileparts(which(mfilename));
 addpath(genpath(folder));
 load ANN/net.mat
