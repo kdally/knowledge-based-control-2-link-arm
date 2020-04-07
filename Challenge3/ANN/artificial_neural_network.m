@@ -1,8 +1,14 @@
 clc
 clearvars
 close all
-tmp = matlab.desktop.editor.getActive;
-addpath(fileparts(tmp.Filename)); % make sure all the functions are in the path
+% MAKE SURE TO CD THE PARENT FOLDER OF ANN
+
+% For MacOS, use:
+%
+% tmp = matlab.desktop.editor.getActive;
+% parts = strsplit(fileparts(tmp.Filename), '/');
+% parent_path = strjoin(parts(1:end-1), '/');
+% cd(parent_path); % go back to the main directory
 
 %% GENERATE TRAINING DATA
 % Input from desired state and targets from analytical equations
@@ -29,9 +35,9 @@ for i = 1:length(rot_vel)
             % and initial offset
             [curr, des] = controller_1_func(rot_vel(i), initial_offset);
 
-            % Record state
-            input = [curr.th; curr.th_d; des.th_dd];
-           
+            % Record state and wrap around theta current
+            input = [wrapTo2Pi(curr.th); curr.th_d; des.th_dd];
+            
             % Record the model-based controller output
             target = curr.tau_ff;
             
@@ -43,18 +49,21 @@ for i = 1:length(rot_vel)
     end
 end
 
-% Remove the colum of zeros due to the initialization
+% Remove the column of zeros due to the initialization
 inputs = inputs(:,2:end);
 targets = targets(:,2:end);
+
+disp("Done preparing training data")
 
 %% TWO-LAYER FEEDFORWARD NETWORK TRAINING
 
 % Create ANN with hidden layer of 25 neurons
 net = feedforwardnet(25);
 
-% Remove duplicates
+% Remove duplicates and rondomize dataset
 net.input.processFcns = {'removeconstantrows','mapminmax'};
 net.output.processFcns = {'removeconstantrows','mapminmax'};
+net.divideFcn = 'dividerand';
 
 % Specify proportion of data for training, validation and testing
 net.divideParam.valRatio = 0.75;
@@ -67,7 +76,7 @@ net.trainParam.epochs = 2000;   % Maximum number of iterations
 net.performFcn = 'mse';         % Performance function
 
 % User preference
-net.trainParam.showWindow = true;
+net.trainParam.showWindow = false;
 net.trainParam.showCommandLine = true;
 
 % Give some initial random weights to network
@@ -85,3 +94,4 @@ parent_path = strjoin(parts(1:end-1), '/');
 clearvars -except net parent_path
 save net         % save the network in the sub-directory
 cd(parent_path); % go back to the main directory
+
